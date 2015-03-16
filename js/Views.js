@@ -40,13 +40,29 @@ var Views = (function() {
           pagination: '.pagination',
           paginationClickable: true,
           createPagination: true,
+          onInit: function(e) {
+            var stationDetail = $('.swiper-slide-active')[0].firstChild.childNodes[0].nodeValue.split(' ',2);
+            var activeStation = Stations.getStationDetails(stationDetail[1]); // get details from the active slide
+
+            $(".station-map--name").html(activeStation[0].address);
+            $(".station-map--distance").html((parseFloat(activeStation[0].distance)/1000).toFixed(2) + " km");
+            $(".counter--value").html(viewStruct.view == "bikes" ? activeStation[0].available_bikes : activeStation[0].available_bike_stands);
+          },
           onSlideChangeStart: function(e){
               body.update(viewStruct);
               RoadMap.initCircle(Geolocation.getPosition());
               var stationDetail = $('.swiper-slide-active')[0].firstChild.childNodes[0].nodeValue.split(' ',2);
 
+              console.log("initSwiper", "stationDetail", stationDetail);
+
               var activeStation = Stations.getStationDetails(stationDetail[1]); // get details from the active slide
               RoadMap.addMarker(Geolocation.getPosition(), activeStation, viewStruct.view);
+
+              console.log("initSwiper", "activeStation", activeStation[0]);
+
+              $(".station-map--name").html(activeStation[0].address);
+              $(".station-map--distance").html((parseFloat(activeStation[0].distance)/1000).toFixed(2) + " km");
+              $(".counter--value").html(viewStruct.view == "bikes" ? activeStation[0].available_bikes : activeStation[0].available_bike_stands);
           }
       });
     }
@@ -158,7 +174,7 @@ var Views = (function() {
             var newSlide = '';
             for (var i = 0; i < stations.length; i++) {
                 console.log(stations[i].name);
-                newSlide = swiper.createSlide('<div>Station ' + stations[i].name + '<br>Vélos disponibles ' + stations[i].availableBikes + '</div>');
+                newSlide = swiper.createSlide('<div>Station ' + stations[i].name + '<br>Vélos disponibles ' + stations[i].available_bikes + '</div>');
                 newSlide.append();
             }
             RoadMap.initCircle(Geolocation.getPosition());
@@ -189,7 +205,7 @@ var Views = (function() {
             var newSlide = '';
             for (var i = 0; i < stations.length; i++) {
                 console.log(stations[i].name);
-                newSlide = swiper.createSlide('<div>Station ' + stations[i].name + '<br>Bornes disponibles ' + stations[i].availableBikes + '</div>');
+                newSlide = swiper.createSlide('<div>Station ' + stations[i].name + '<br>Bornes disponibles ' + stations[i].available_bike_stands + '</div>');
                 newSlide.append();
             }
             RoadMap.initCircle(Geolocation.getPosition());
@@ -223,7 +239,7 @@ var Views = (function() {
         Geolocation.waitPosition(function() {
             var stationId = window.location.hash.substr(10); // hash = #/station/{stationId}
             console.log("stationId : " + stationId);
-            
+
             // Allow to get distance between station and current position
             var stations = Stations.getClosestStations(Geolocation.getPosition());
 
