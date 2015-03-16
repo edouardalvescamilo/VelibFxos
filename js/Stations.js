@@ -42,7 +42,6 @@ var Stations = (function() {
         if (lastStationsUpdate === null || lastStationsUpdate < Config.stationListTimeout || fullStationList === null) {
             refresh();
         }
-        console.log(fullStationList[0]);
     };
 
     // Wait for the full list to be populated
@@ -272,7 +271,6 @@ var Stations = (function() {
         getClosestStations: getClosestStations,
         toggleStarStation: toggleStarStation,
         getStarredStations: getStarredStations,
-        getStationDetails: getStationDetails,
         getFullList: getFullList
     };
 })();
