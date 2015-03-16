@@ -127,12 +127,12 @@ var Stations = (function() {
         formatted.number = station.number;
 
         // Availables bikes & stands
-        formatted.availableBikes = station.availableBikes;
-        formatted.availableStands = station.availableStands;
+        formatted.availableBikes = station.available_bikes;
+        formatted.availableStands = station.available_bike_stands;
 
         // Last update
-        if(station.lastUpdate != null) {
-            var diff = dateDiff(station.lastUpdate);
+        if(station.last_update != null) {
+            var diff = dateDiff(station.last_update);
             var text = "";
 
             if (diff.day > 1)
@@ -140,17 +140,17 @@ var Stations = (function() {
             else if (diff.day == 1)
                 text = diff.day + ' jour';
             else if (diff.hour > 1)
-                text = diff.day + ' heures';
+                text = diff.hour + ' heures';
             else if (diff.hour == 1)
-                text = diff.day + ' heure';
+                text = diff.hour + ' heure';
             else if (diff.min > 1)
-                text = diff.day + ' minutes';
+                text = diff.min + ' minutes';
             else if (diff.min == 1)
-                text = diff.day + ' minute';
+                text = diff.min + ' minute';
             else if (diff.sec > 1)
-                text = diff.day + ' secondes';
+                text = diff.sec + ' secondes';
             else if (diff.sec == 1)
-                text = diff.day + ' seconde';
+                text = diff.sec + ' seconde';
             else
                 text = 'un instant';
             formatted.lastUpdate = text;
